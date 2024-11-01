@@ -1,15 +1,16 @@
-import { useContext } from "react";
+
 import { useLoaderData, useNavigate } from "react-router-dom"
-import { AuthContext } from "../provider/AuthProvider";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from 'axios'
 import toast from "react-hot-toast";
+import useAuth from "../Hooks/useAuth";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const JobDetails = () => {
   const job = useLoaderData();
-  const { user } = useContext(AuthContext)
+  const { user } = useAuth()
+  const axioSecure  = useAxiosSecure()
   const [startDate, setStartDate] = useState(new Date());
   const { category, job_title, _id, min_price, max_price, description, deadline, buyer } = job || {};
   console.log(job)
@@ -32,14 +33,15 @@ const JobDetails = () => {
       job_title, jobId, deadline, price, comment, email, status, category, buyer
     }
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/bids`, bidData);
+      const { data } = await axioSecure.post(`/bids`, bidData);
       console.log(data)
       toast.success('bid done');
       navigate('/my-bids')
       
     } catch (err) {
-      console.log(err.message)
-      toast.error(err.message)
+      console.log(err.response.data)
+      toast.error(err.response.data);
+      e.target.reset()
     }
   }
 
@@ -96,6 +98,7 @@ const JobDetails = () => {
                 Price
               </label>
               <input
+              required
                 id='price'
                 type='text'
                 name='price'

@@ -21,6 +21,9 @@ const Navbar = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
+          <li>
+            <Link to="/jobs">All Jobs</Link>
+          </li>
 
           {!user && (
 
