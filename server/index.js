@@ -13,7 +13,9 @@ const app = express();
 const corsOptions = {
   origin:
     [
-      'http://localhost:5173'
+      'http://localhost:5173',
+      'https://solosphare-31a9f.firebaseapp.com',
+      'https://solosphare-31a9f.web.app'
     ],
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH'], // Add methods you need
